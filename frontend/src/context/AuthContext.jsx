@@ -1,37 +1,37 @@
-import { createContext, useContext, useEffect, useState } from 'react'
-import { toast } from 'react-hot-toast'
+import { createContext, useContext, useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
 
-export const AuthContext = createContext()
+export const AuthContext = createContext();
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const useAuthContext = () => {
-  return useContext(AuthContext)
-}
+  return useContext(AuthContext);
+};
 
 // eslint-disable-next-line react/prop-types
 export const AuthContextProvider = ({ children }) => {
-  const [authUser, setAuthUser] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [authUser, setAuthUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkUserLoggedIn = async () => {
-      setLoading(true)
+      setLoading(true);
       try {
-        const res = await fetch('/api/auth/check', { credentials: 'include' })
-        const data = await res.json()
-        setAuthUser(data.user) // null or authenticated user object
+        const res = await fetch('/api/auth/check', { credentials: 'include' });
+        const data = await res.json();
+        setAuthUser(data.user); // null or authenticated user object
       } catch (error) {
-        toast.error(error.message)
+        toast.error(error.message);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
-    checkUserLoggedIn()
-  }, [])
+    };
+    checkUserLoggedIn();
+  }, []);
 
   return (
     <AuthContext.Provider value={{ authUser, setAuthUser, loading }}>
       {children}
     </AuthContext.Provider>
-  )
-}
+  );
+};
